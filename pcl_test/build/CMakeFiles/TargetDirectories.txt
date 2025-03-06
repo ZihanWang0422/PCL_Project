@@ -1,0 +1,7 @@
+/home/wzh/PCL_Project/PCL_pre/build/CMakeFiles/install/strip.dir
+/home/wzh/PCL_Project/PCL_pre/build/CMakeFiles/install/local.dir
+/home/wzh/PCL_Project/PCL_pre/build/CMakeFiles/install.dir
+/home/wzh/PCL_Project/PCL_pre/build/CMakeFiles/list_install_components.dir
+/home/wzh/PCL_Project/PCL_pre/build/CMakeFiles/rebuild_cache.dir
+/home/wzh/PCL_Project/PCL_pre/build/CMakeFiles/edit_cache.dir
+/home/wzh/PCL_Project/PCL_pre/build/CMakeFiles/pcl_test.dir
