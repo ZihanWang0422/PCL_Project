@@ -10,6 +10,7 @@
 
 [边缘疯狂试探的个人空间-边缘疯狂试探个人主页-哔哩哔哩视频](https://space.bilibili.com/504859351/lists/536852?type=series)
 
+[PCL 例程](https://github.com/HuangCongQing/pcl-learning) 
 ### 2.PCL environments
 
 配置PCL Ubuntu环境可参考下面文章：
