@@ -18,6 +18,8 @@
 [Ubuntu环境下PCL配置](https://blog.csdn.net/qq_41092406/article/details/117930972)
 
 CMake 过程
+
+*注意.pcd文件应该放到build文件下*
 * 在项目内新建build
 * build 内打开终端
 * 输入：
