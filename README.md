@@ -71,3 +71,12 @@ sensor origin (xyz): [0, 0, 0] / orientation (xyzw): [0, 0, 0, 1]
 运行PFH1：phf feature size : 3400
 
 ![Alt text](image-3.png)
+
+
+### 4. PointCloud Segmentation
+
+#### 4.1 PointNet++
+
+##### 4.1.1 Dataet
+
+https://github.com/open-mmlab/mmdetection3d/tree/1.0/data/s3dis
