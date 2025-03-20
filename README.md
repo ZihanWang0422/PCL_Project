@@ -16,6 +16,7 @@ make
 
 ### 1. Viewer
 
+#### 1.1 PCL_viewer
 Run `pcl_viewer name.pcd`  in terminal, you can see a 3D point window.
 
 ![Rabbit](image.png)
@@ -24,6 +25,71 @@ Run `pcl_viewer name.pcd`  in terminal, you can see a 3D point window.
 `pcl_viewer: ../../src/xcb_io.c:260: poll_for_event: Assertion !xcb_xlib_threads_sequence_lost' failed.
 已放弃 (核心已转储)
 ` Run command again can solve it!
+
+##### 1.2 .las -> .pcd
+
+方法一：使用 PDAL
+安装 PDAL：
+sudo apt-get install pdal
+在 Windows 或 macOS 上，可从 PDAL 官网 下载安装包。
+
+转换文件：
+使用 PDAL 命令行工具进行转换：
+
+pdal translate input.las output.pcd
+
+
+方法二：使用 Python 和 PyPDAL
+安装 PyPDAL：
+
+pip install pdal
+编写 Python 脚本：
+
+```python
+import pdal
+
+pipeline = pdal.Pipeline(
+    'input.las',
+    'output.pcd'
+)
+
+pipeline.execute()
+```
+
+方法三：使用 CloudCompare
+安装 CloudCompare：
+
+从 CloudCompare 官网 下载并安装。
+
+转换文件：
+
+打开 CloudCompare，加载 .las 文件。
+
+选择 File > Save，保存为 .pcd 格式。
+
+
+方法四：使用 PCL（Point Cloud Library）
+安装 PCL：
+
+在 Ubuntu 上：
+
+sudo apt-get install libpcl-dev
+在 Windows 或 macOS 上，可从 PCL 官网 下载安装包。
+
+```c++
+#include <pcl/io/pcd_io.h>
+#include <pcl/io/las_io.h>
+#include <pcl/point_types.h>
+
+int main() {
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::LASReader reader;
+    reader.read("input.las", *cloud);
+    pcl::io::savePCDFileASCII("output.pcd", *cloud);
+    return 0;
+}
+```
+
 
 ### 2. Filter
 
@@ -77,6 +143,16 @@ sensor origin (xyz): [0, 0, 0] / orientation (xyzw): [0, 0, 0, 1]
 
 #### 4.1 PointNet++
 
-##### 4.1.1 Dataet
-
+* Datasets:
 https://github.com/open-mmlab/mmdetection3d/tree/1.0/data/s3dis
+
+* Tips：
+训练时出现显卡内存不足的情况，可以减少batch size，并禁用多线程
+
+* 处理结果：
+![alt text](image-6.png)
+
+
+**To do list**
+* 转换点云数据为txt 坐标格式？
+* 继续Pointransformer复现，作为主要框架
