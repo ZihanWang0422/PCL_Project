@@ -28,8 +28,21 @@ Run `pcl_viewer name.pcd`  in terminal, you can see a 3D point window.
 
 ##### 1.2 .las -> .pcd
 
+教程：https://blog.csdn.net/weixin_44477442/article/details/124181843
+
 方法1：使用 CloudCompare
+
 安装 CloudCompare：
+
+教程：https://blog.csdn.net/weixin_44638846/article/details/140406751
+
+⚠️ 可能会出现报错：CMake Error at libs/CCAppCommon/CMakeLists.txt:3 (add_library):
+Cannot find source file:
+/root/download/CloudCompare/libs/CCAppCommon/QDarkStyleSheet/qdarkstyle/dark/darkstyle.qrc
+
+可以git submodule update --init --recursive
+在终端运行这句，然后重新构建编译
+
 
 
 * 转换文件：
@@ -112,7 +125,47 @@ sensor origin (xyz): [0, 0, 0] / orientation (xyzw): [0, 0, 0, 1]
 
 ### 4. PointCloud Segmentation
 
-#### 4.1 PointNet++
+#### 4.1 点云数据标注
+
+提取txt文件：https://blog.csdn.net/weixin_44603934/article/details/123591370?spm=1001.2014.3001.5501
+
+对与第四列的数据进行剔除
+
+```python
+# -*- coding:utf-8 -*-
+import os
+filePath = 'D:\\点云数据处理小组\\pointnet-my\\data\\shapenetcore_partanno_segmentation_benchmark_v0_normal\\03797390'
+for i,j,k in os.walk(filePath):
+    for name in  k:
+        list1 = []
+        for line in open(filePath+name):
+            a = line.split()
+            #print(a)
+            b = a[0:6]
+            #print(b)
+            a1 =float(a[0])
+            a2 =float(a[1])
+            a3 =float(a[2])
+            #print(a1)
+            if(a1==0 and a2==0 and a3==0):
+                continue
+            list1.append(b[0:6])
+        with open(filePath+name, 'w+') as file:
+            for i in list1:
+                file.write(str(i[0]))
+                file.write(' '+str(i[1]))
+                file.write(' ' + str(i[2]))
+                file.write(' ' + str(i[3]))
+                file.write(' ' + str(i[4]))
+                if(i!=list[-1]):
+                    file.write('\n')
+        file.close()
+```
+
+
+
+
+#### 4.2 PointNet++
 
 * Datasets:
 https://github.com/open-mmlab/mmdetection3d/tree/1.0/data/s3dis
@@ -124,13 +177,7 @@ https://github.com/open-mmlab/mmdetection3d/tree/1.0/data/s3dis
 ![alt text](image-6.png)
 
 
-**To do list**
-* 转换点云数据为txt 坐标格式？
-* 继续Pointransformer复现，作为主要框架
-
-
-
-#### 4.2 PointTransformer
+#### 4.3 PointTransformer
 
 * 复现：
 
