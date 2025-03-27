@@ -28,47 +28,18 @@ Run `pcl_viewer name.pcd`  in terminal, you can see a 3D point window.
 
 ##### 1.2 .las -> .pcd
 
-方法一：使用 PDAL
-安装 PDAL：
-sudo apt-get install pdal
-在 Windows 或 macOS 上，可从 PDAL 官网 下载安装包。
-
-转换文件：
-使用 PDAL 命令行工具进行转换：
-
-pdal translate input.las output.pcd
-
-
-方法二：使用 Python 和 PyPDAL
-安装 PyPDAL：
-
-pip install pdal
-编写 Python 脚本：
-
-```python
-import pdal
-
-pipeline = pdal.Pipeline(
-    'input.las',
-    'output.pcd'
-)
-
-pipeline.execute()
-```
-
-方法三：使用 CloudCompare
+方法1：使用 CloudCompare
 安装 CloudCompare：
 
-从 CloudCompare 官网 下载并安装。
 
-转换文件：
+* 转换文件：
 
 打开 CloudCompare，加载 .las 文件。
 
 选择 File > Save，保存为 .pcd 格式。
 
 
-方法四：使用 PCL（Point Cloud Library）
+方法2：使用 PCL（Point Cloud Library）
 安装 PCL：
 
 在 Ubuntu 上：
@@ -156,3 +127,16 @@ https://github.com/open-mmlab/mmdetection3d/tree/1.0/data/s3dis
 **To do list**
 * 转换点云数据为txt 坐标格式？
 * 继续Pointransformer复现，作为主要框架
+
+
+
+#### 4.2 PointTransformer
+
+* 复现：
+
+
+
+
+
+train:
+sh scripts/train.sh -p python -g 1 -d s3dis -c semseg-pt-v3m1-1-rpe -n semseg-pt-v3m1-1-rpe
