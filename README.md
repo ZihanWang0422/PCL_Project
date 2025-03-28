@@ -176,6 +176,10 @@ https://github.com/open-mmlab/mmdetection3d/tree/1.0/data/s3dis
 * 处理结果：
 ![alt text](image-6.png)
 
+* 训练自己的数据:
+https://blog.csdn.net/weixin_44603934/article/details/123589948
+
+
 
 #### 4.3 PointTransformer
 
