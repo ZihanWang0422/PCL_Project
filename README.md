@@ -26,53 +26,9 @@ Run `pcl_viewer name.pcd`  in terminal, you can see a 3D point window.
 已放弃 (核心已转储)
 ` Run command again can solve it!
 
-##### 1.2 .las -> .pcd
+##### 1.2 .las -> .pcdtrans
 
-教程：https://blog.csdn.net/weixin_44477442/article/details/124181843
-
-方法1：使用 CloudCompare
-
-安装 CloudCompare：
-
-教程：https://blog.csdn.net/weixin_44638846/article/details/140406751
-
-⚠️ 可能会出现报错：CMake Error at libs/CCAppCommon/CMakeLists.txt:3 (add_library):
-Cannot find source file:
-/root/download/CloudCompare/libs/CCAppCommon/QDarkStyleSheet/qdarkstyle/dark/darkstyle.qrc
-
-可以git submodule update --init --recursive
-在终端运行这句，然后重新构建编译
-
-
-
-* 转换文件：
-
-打开 CloudCompare，加载 .las 文件。
-
-选择 File > Save，保存为 .pcd 格式。
-
-
-方法2：使用 PCL（Point Cloud Library）
-安装 PCL：
-
-在 Ubuntu 上：
-
-sudo apt-get install libpcl-dev
-在 Windows 或 macOS 上，可从 PCL 官网 下载安装包。
-
-```c++
-#include <pcl/io/pcd_io.h>
-#include <pcl/io/las_io.h>
-#include <pcl/point_types.h>
-
-int main() {
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::LASReader reader;
-    reader.read("input.las", *cloud);
-    pcl::io::savePCDFileASCII("output.pcd", *cloud);
-    return 0;
-}
-```
+使用脚本`transform.py`读取las格式文件，并将其转化为pcd格式文件。
 
 
 ### 2. Filter
@@ -126,6 +82,17 @@ sensor origin (xyz): [0, 0, 0] / orientation (xyzw): [0, 0, 0, 1]
 ### 4. PointCloud Segmentation
 
 #### 4.1 点云数据标注
+
+使用CloudCompare：
+
+教程：https://blog.csdn.net/weixin_44638846/article/details/140406751
+
+⚠️ 可能会出现报错：CMake Error at libs/CCAppCommon/CMakeLists.txt:3 (add_library):
+Cannot find source file:
+/root/download/CloudCompare/libs/CCAppCommon/QDarkStyleSheet/qdarkstyle/dark/darkstyle.qrc
+
+可以git submodule update --init --recursive
+在终端运行这句，然后重新构建编译
 
 提取txt文件：https://blog.csdn.net/weixin_44603934/article/details/123591370?spm=1001.2014.3001.5501
 
