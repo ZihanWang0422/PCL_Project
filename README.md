@@ -28,52 +28,44 @@ Run `pcl_viewer name.pcd`  in terminal, you can see a 3D point window.
 
 ##### 1.2 .las -> .pcd
 
-教程：https://blog.csdn.net/weixin_44477442/article/details/124181843
+使用open3D进行转换，代码如下：
+```python
+import numpy as np
+import laspy
+import open3d as o3d
 
-方法1：使用 CloudCompare
+point_cloud_path = 'input.las'
+las = laspy.read(point_cloud_path)
+# 写入点
+point_data = np.stack([las.x, las.y, las.z], axis=0).transpose((1, 0))
+pcd = o3d.geometry.PointCloud()
+pcd.points = o3d.utility.Vector3dVector(point_data)
+# 写入着色
+if las.red.max() >= 256: las.red >>= 8
+if las.green.max() >= 256: las.green >>= 8
+if las.blue.max() >= 256: las.blue >>= 8
+colors = np.stack([las.red*256/65535, las.green*256/65535, las.blue*256/65535], axis=0).transpose((1, 0))
+pcd.colors = o3d.utility.Vector3dVector(colors)
 
-安装 CloudCompare：
-
-教程：https://blog.csdn.net/weixin_44638846/article/details/140406751
-
-⚠️ 可能会出现报错：CMake Error at libs/CCAppCommon/CMakeLists.txt:3 (add_library):
-Cannot find source file:
-/root/download/CloudCompare/libs/CCAppCommon/QDarkStyleSheet/qdarkstyle/dark/darkstyle.qrc
-
-可以git submodule update --init --recursive
-在终端运行这句，然后重新构建编译
-
-
-
-* 转换文件：
-
-打开 CloudCompare，加载 .las 文件。
-
-选择 File > Save，保存为 .pcd 格式。
-
-
-方法2：使用 PCL（Point Cloud Library）
-安装 PCL：
-
-在 Ubuntu 上：
-
-sudo apt-get install libpcl-dev
-在 Windows 或 macOS 上，可从 PCL 官网 下载安装包。
-
-```c++
-#include <pcl/io/pcd_io.h>
-#include <pcl/io/las_io.h>
-#include <pcl/point_types.h>
-
-int main() {
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::LASReader reader;
-    reader.read("input.las", *cloud);
-    pcl::io::savePCDFileASCII("output.pcd", *cloud);
-    return 0;
-}
+# 测试可视化
+o3d.visualization.draw_geometries([pcd])
 ```
 
+
+CloudCompare可视化：
+
+las文件如下：
+
+![alt text](image-7.png)
+
+转换后的pcd文件如下:
+
+Default point size: 1
+Default line width: 1
+
+![alt text](image-10.png)
+
+![alt text](image-12.png)
 
 ### 2. Filter
 
@@ -104,6 +96,8 @@ sensor origin (xyz): [0, 0, 0] / orientation (xyzw): [0, 0, 0, 1]
 ![Alt text](image-5.png)
 
 
+![alt text](image-11.png)
+
 ### 3. Feature Extraction
 
 #### 3.1 Normal estimation
@@ -127,9 +121,22 @@ sensor origin (xyz): [0, 0, 0] / orientation (xyzw): [0, 0, 0, 1]
 
 #### 4.1 点云数据标注
 
-提取txt文件：https://blog.csdn.net/weixin_44603934/article/details/123591370?spm=1001.2014.3001.5501
+1. 使用 CloudCompare
 
-对与第四列的数据进行剔除
+安装 CloudCompare：
+
+教程：https://blog.csdn.net/weixin_44638846/article/details/140406751
+
+⚠️ 可能会出现报错：CMake Error at libs/CCAppCommon/CMakeLists.txt:3 (add_library):
+Cannot find source file:
+/root/download/CloudCompare/libs/CCAppCommon/QDarkStyleSheet/qdarkstyle/dark/darkstyle.qrc
+
+可以git submodule update --init --recursive
+在终端运行这句，然后重新构建编译
+
+2. 提取txt文件：https://blog.csdn.net/weixin_44603934/article/details/123591370?spm=1001.2014.3001.5501
+
+对第四列的数据进行剔除
 
 ```python
 # -*- coding:utf-8 -*-
@@ -184,10 +191,6 @@ https://blog.csdn.net/weixin_44603934/article/details/123589948
 #### 4.3 PointTransformer
 
 * 复现：
-
-
-
-
 
 train:
 sh scripts/train.sh -p python -g 1 -d s3dis -c semseg-pt-v3m1-1-rpe -n semseg-pt-v3m1-1-rpe
